@@ -1,0 +1,42 @@
+#  This file is part of the ETL Provenance Tracking Dashboard based on the Data Quality Monitor by TUM.
+
+version: '3.7'
+
+services:
+
+  grafana:
+    container_name: grafana-${COMPOSE_PROJECT_NAME}
+    image: grafana/grafana:10.0.1-ubuntu
+    restart: unless-stopped
+    environment:
+      - GF_INSTALL_PLUGINS=https://github.com/cloudspout/cloudspout-button-panel/releases/download/7.0.23/cloudspout-button-panel.zip;cloudspout-button-panel
+    depends_on:
+      - prometheus
+    ports:
+      - ${GRAFANA_PORT}:3000
+    volumes:
+      - type: volume
+        source: grafana-storage
+        target: /var/lib/grafana
+      - type: bind
+        source: $PWD/provisioning/grafana/
+        target: /etc/grafana/provisioning/
+
+  event-store:
+    container_name: event-store-${COMPOSE_PROJECT_NAME}
+    image: postgres:9.6.17
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=${ES_POSTGRES_PW}
+      - POSTGRES_DB=es
+      - POSTGRES_HOST_AUTH_METHOD=md5
+    volumes:
+      - ./provisioning/event-store:/docker-entrypoint-initdb.d
+      - event-storage:/var/lib/postgresql
+    ports:
+      - ${ES_PORT}:5432
+
+volumes:
+  grafana-storage:
+  event-storage:
+

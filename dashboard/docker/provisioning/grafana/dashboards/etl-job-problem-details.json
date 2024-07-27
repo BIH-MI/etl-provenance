@@ -1,0 +1,286 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 8,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "BIHMI"
+      ],
+      "targetBlank": false,
+      "title": "New link",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PA7A0C2429FA651D4"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entity / Table"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 224
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Event ID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 141
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ETL Job ID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 118
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Problem Dimension"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 184
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ref. Attribute"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 130
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ref. ID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 156
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Error Attribute"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 192
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Error Value"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 163
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Activity"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 225
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 19,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PA7A0C2429FA651D4"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select event_pk AS \"Event ID\", job_fk AS \"ETL Job ID\",\r\nproblem_name AS \"Problem Dimension\",\r\n source_entity_name AS \"Entity / Table\", \r\n source_entity_key_attr \"Ref. Attribute\", \r\n source_entity_key AS \"Ref. ID\", \r\n source_entity_error_attr AS \"Error Attribute\", \r\n source_entity_error_val AS \"Error Value\", \r\n '' AS \"Activity\",\r\n info AS \"Info\"\r\nfrom prov.error_event_fact, prov.problem_dimension\r\nwhere prov.error_event_fact.problem_fk = prov.problem_dimension.problem_pk \r\nand job_fk = '$jobsel' \r\nand source_entity_name = '$entity'\r\nand source_entity_error_attr = '$attribute'\r\nand problem_name = '$problem'",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Problem event view",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [
+    "BIHMI"
+  ],
+  "templating": {
+    "list": [
+      {
+        "hide": 2,
+        "name": "entity",
+        "query": "",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "attribute",
+        "query": "",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "jobsel",
+        "query": "",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "problem",
+        "query": "",
+        "skipUrlSync": false,
+        "type": "constant"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1y",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "ETL Job Problem Details",
+  "uid": "c3276fc8-80a3-4529-9a4a-04c05f438803",
+  "version": 23,
+  "weekStart": ""
+}

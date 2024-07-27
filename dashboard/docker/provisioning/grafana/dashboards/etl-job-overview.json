@@ -1,0 +1,322 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 6,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "BIHMI"
+      ],
+      "targetBlank": false,
+      "title": "New link",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 2,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "id": 75,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "# Selected jobID: $jobsel",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.0",
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 6,
+      "panels": [],
+      "repeat": "attribute",
+      "repeatDirection": "h",
+      "title": "Attribute: $attribute",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PA7A0C2429FA651D4"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#73BF69",
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "links": [
+            {
+              "targetBlank": false,
+              "title": "",
+              "url": "http://t-hdp-dwh.charite.de:8443/d/c3276fc8-80a3-4529-9a4a-04c05f438803/etl-job-problem-details?orgId=1&var-jobsel=${jobsel}&var-attribute=${attribute}&var-entity=${entity}&var-problem=${problem_label}\n"
+            }
+          ],
+          "mappings": [],
+          "min": 0,
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "no problems"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "problems"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 0,
+        "y": 3
+      },
+      "id": 1,
+      "maxPerRow": 12,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.1",
+      "repeat": "problem_label",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PA7A0C2429FA651D4"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    COALESCE(MAX(CASE WHEN passed = TRUE THEN row_count END), 0) AS \"no problems\",\r\n    COALESCE(MAX(CASE WHEN passed = FALSE THEN row_count END), 0) AS \"problems\"\r\nFROM\r\n    prov.event_count_fact, prov.problem_dimension\r\nWHERE\r\n    prov.event_count_fact.problem_fk = prov.problem_dimension.problem_pk\r\n    AND job_fk = $jobsel\r\n    AND attr_name IN ($attribute)\r\n    AND problem_name IN ($problem_label)\r\n    AND entity_name = '$entity'\r\nGROUP BY\r\n    problem_fk;\r\n\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "$problem_label ",
+      "type": "piechart"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [
+    "BIHMI"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Medikation (Tagesdosis) ~ Kaliumdihydrogenphosphat/Natriummonohydrogenphosphat (Dos.)",
+          "value": "Medikation (Tagesdosis) ~ Kaliumdihydrogenphosphat/Natriummonohydrogenphosphat (Dos.)"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "PA7A0C2429FA651D4"
+        },
+        "definition": "SELECT DISTINCT(entity_name) FROM prov.event_count_fact WHERE job_fk = $jobsel;",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Entity",
+        "multi": false,
+        "name": "entity",
+        "options": [],
+        "query": "SELECT DISTINCT(entity_name) FROM prov.event_count_fact WHERE job_fk = $jobsel;",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": "ALL",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "PA7A0C2429FA651D4"
+        },
+        "definition": "select distinct(attr_name) from prov.event_count_fact where job_fk = $jobsel and entity_name = '$entity';",
+        "hide": 2,
+        "includeAll": true,
+        "label": "Attribute",
+        "multi": true,
+        "name": "attribute",
+        "options": [],
+        "query": "select distinct(attr_name) from prov.event_count_fact where job_fk = $jobsel and entity_name = '$entity';",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": "ALL",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "PA7A0C2429FA651D4"
+        },
+        "definition": "select problem_name from prov.problem_dimension, prov.event_count_fact where prov.event_count_fact.problem_fk = prov.problem_dimension.problem_pk and prov.event_count_fact.job_fk = $jobsel;",
+        "hide": 2,
+        "includeAll": true,
+        "label": "problem Label",
+        "multi": true,
+        "name": "problem_label",
+        "options": [],
+        "query": "select problem_name from prov.problem_dimension, prov.event_count_fact where prov.event_count_fact.problem_fk = prov.problem_dimension.problem_pk and prov.event_count_fact.job_fk = $jobsel;",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "hide": 2,
+        "label": "jobsel",
+        "name": "jobsel",
+        "query": "",
+        "skipUrlSync": false,
+        "type": "constant"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-90d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "ETL Job Overview",
+  "uid": "e5c58296-68ae-4ae1-855a-9a4149f881ab",
+  "version": 63,
+  "weekStart": ""
+}
