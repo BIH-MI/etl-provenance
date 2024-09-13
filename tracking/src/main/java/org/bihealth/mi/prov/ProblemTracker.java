@@ -163,16 +163,15 @@ public class ProblemTracker {
 		Persistence.getInstance().validateEventStoreSchema(connection);
 
 		// Prepare SQL statement
-		String SQL_INSERT = "INSERT INTO prov.job_dimension\n" + "(job_name, job_start, source_system, phase, status)\n"
-				+ "VALUES\n" + "(?, ?, ?, ?, ?);";
+		String SQL_INSERT = "INSERT INTO prov.job_dimension\n" + "(job_name, job_start, source_system, status)\n"
+				+ "VALUES\n" + "(?, ?, ?, ?);";
 		PreparedStatement insertStmt = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
 		// Set parameters
 		insertStmt.setString(1, jobName);
 		insertStmt.setTimestamp(2, new java.sql.Timestamp(Calendar.getInstance().getTime().getTime()));
 		insertStmt.setString(3, sourceSystem);
-		insertStmt.setString(4, "ETL");
-		insertStmt.setString(5, ETLStatus.RUNNING.toString());
+		insertStmt.setString(4, ETLStatus.RUNNING.toString());
 
 		// Execute statement
 		int affectedRows = insertStmt.executeUpdate();

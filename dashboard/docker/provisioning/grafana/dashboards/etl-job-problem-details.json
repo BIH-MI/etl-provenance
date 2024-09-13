@@ -211,7 +211,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select event_pk AS \"Event ID\", job_fk AS \"ETL Job ID\",\r\nproblem_name AS \"Problem Dimension\",\r\n source_entity_name AS \"Entity / Table\", \r\n source_entity_key_attr \"Ref. Attribute\", \r\n source_entity_key AS \"Ref. ID\", \r\n source_entity_error_attr AS \"Error Attribute\", \r\n source_entity_error_val AS \"Error Value\", \r\n '' AS \"Activity\",\r\n info AS \"Info\"\r\nfrom prov.error_event_fact, prov.problem_dimension\r\nwhere prov.error_event_fact.problem_fk = prov.problem_dimension.problem_pk \r\nand job_fk = '$jobsel' \r\nand source_entity_name = '$entity'\r\nand source_entity_error_attr = '$attribute'\r\nand problem_name = '$problem'",
+          "rawSql": "select event_pk AS \"Event ID\", job_fk AS \"ETL Job ID\",\r\nproblem_name AS \"Problem Dimension\",\r\n source_entity_name AS \"Entity / Table\", \r\n source_entity_key_attr \"Ref. Attribute\", \r\n source_entity_key AS \"Ref. ID\", \r\n source_entity_error_attr AS \"Error Attribute\", \r\n source_entity_error_val AS \"Error Value\", \r\n activity AS \"Activity\",\r\n info AS \"Info\"\r\nfrom prov.error_event_fact, prov.problem_dimension\r\nwhere prov.error_event_fact.problem_fk = prov.problem_dimension.problem_pk \r\nand job_fk = '$jobsel' \r\nand source_entity_name = '$entity'\r\nand source_entity_error_attr = '$attribute'\r\nand problem_name = '$problem'",
           "refId": "A",
           "sql": {
             "columns": [

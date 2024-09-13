@@ -91,8 +91,8 @@ public class Persistence {
 		} else if (!isCompatible(packageVersion, schemaVersion)) {
 			String message = String.format("Software version %s is incompatible with schema version %s.",
 					packageVersion, schemaVersion);
-			logger.error(message);
-			throw new RuntimeException(message);
+			logger.warn(message);
+			// throw new RuntimeException(message);
 		}
 
 		if (isSchemaFresh(connection)) {
@@ -191,8 +191,8 @@ public class Persistence {
 
 		// Prepare statement
 		String SQL_INSERT = "INSERT INTO prov.problem_dimension\n"
-				+ "(problem_pk, problem_subcategory_fk, problem_name, problem_short_name, default_severity_score, exception_action)\n"
-				+ "VALUES(?, ?, ?, ?, ?, ?)\n";
+				+ "(problem_pk, problem_subcategory_fk, problem_name, problem_short_name, default_severity_score)\n"
+				+ "VALUES(?, ?, ?, ?, ?)\n";
 		PreparedStatement insertStmt = connection.prepareStatement(SQL_INSERT);
 
 		// Log

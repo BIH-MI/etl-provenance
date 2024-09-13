@@ -45,11 +45,7 @@
             {
               "targetBlank": false,
               "title": "Show Job Drill-down",
-              "url": "http://t-hdp-dwh.charite.de:8443/d/e5c58296-68ae-4ae1-855a-9a4149f881ab/last-etl-job-overview?var-jobsel=${__data.fields.ID}"
-            },
-            {
-              "title": "Show Job Insight",
-              "url": "http://t-hdp-dwh.charite.de:8443/d/e5c58296-68ae-4ae1-855a-fa4149f881ab/etl-job-insights?orgId=1&var-jobsel=${__data.fields.ID}"
+              "url": "/d/e5c58296-68ae-4ae1-855a-9a4149f881ab/last-etl-job-overview?var-jobsel=${__data.fields.ID}"
             }
           ],
           "mappings": [],
@@ -163,18 +159,6 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Phase"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 136
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
               "options": "Status"
             },
             "properties": [
@@ -222,7 +206,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select\r\n  job_pk AS \"ID\",\r\n  job_name AS \"Name\",\r\n  job_start AS \"Start\",\r\n  job_finish AS \"End\",\r\n  source_system AS \"Source Name\",\r\n  phase AS \"Phase\",\r\n  status as \"Status\",\r\n  COALESCE(\r\n        100.0 * SUM(CASE WHEN prov.event_count_fact.passed = TRUE THEN prov.event_count_fact.row_count ELSE 0 END) / NULLIF(SUM(prov.event_count_fact.row_count), 0),\r\n        0\r\n    ) AS \"No Problem Percentage\"\r\n from prov.job_dimension, prov.event_count_fact /* WHERE job_pk IN ($job_selector); */\r\n where prov.job_dimension.job_pk = prov.event_count_fact.job_fk\r\n group by prov.job_dimension.job_pk\r\n order by job_pk desc;",
+          "rawSql": "select\r\n  job_pk AS \"ID\",\r\n  job_name AS \"Name\",\r\n  job_start AS \"Start\",\r\n  job_finish AS \"End\",\r\n  source_system AS \"Source Name\",\r\n  status as \"Status\",\r\n  COALESCE(\r\n        100.0 * SUM(CASE WHEN prov.event_count_fact.passed = TRUE THEN prov.event_count_fact.row_count ELSE 0 END) / NULLIF(SUM(prov.event_count_fact.row_count), 0),\r\n        0\r\n    ) AS \"No Problem Percentage\"\r\n from prov.job_dimension, prov.event_count_fact /* WHERE job_pk IN ($job_selector); */\r\n where prov.job_dimension.job_pk = prov.event_count_fact.job_fk\r\n group by prov.job_dimension.job_pk\r\n order by job_pk desc;",
           "refId": "A",
           "sql": {
             "columns": [

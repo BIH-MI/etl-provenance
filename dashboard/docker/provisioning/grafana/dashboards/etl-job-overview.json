@@ -101,7 +101,7 @@
             {
               "targetBlank": false,
               "title": "",
-              "url": "http://t-hdp-dwh.charite.de:8443/d/c3276fc8-80a3-4529-9a4a-04c05f438803/etl-job-problem-details?orgId=1&var-jobsel=${jobsel}&var-attribute=${attribute}&var-entity=${entity}&var-problem=${problem_label}\n"
+              "url": "/d/c3276fc8-80a3-4529-9a4a-04c05f438803/etl-job-problem-details?orgId=1&var-jobsel=${jobsel}&var-attribute=${attribute}&var-entity=${entity}&var-problem=${problem_label}\n"
             }
           ],
           "mappings": [],

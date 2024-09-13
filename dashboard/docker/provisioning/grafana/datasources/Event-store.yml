@@ -4,10 +4,10 @@ datasources:
   - name: Event-store
     type: postgres
     access: proxy
-    url: event-store:5432
+    url: event-store-etl-provenance:5432
     user: postgres
     secureJsonData:
-      password: aU6s367W
+      password: d3f4ul7
     jsonData:
       database: es
       sslmode: 'disable' # disable/require/verify-ca/verify-full
@@ -15,5 +15,5 @@ datasources:
       maxIdleConns: 100 # Grafana v5.4+
       maxIdleConnsAuto: true # Grafana v9.5.1+
       connMaxLifetime: 14400 # Grafana v5.4+
-      postgresVersion: 903 # 903=9.3, 904=9.4, 905=9.5, 906=9.6, 1000=10
+      postgresVersion: 906 # 903=9.3, 904=9.4, 905=9.5, 906=9.6, 1000=10
       timescaledb: false

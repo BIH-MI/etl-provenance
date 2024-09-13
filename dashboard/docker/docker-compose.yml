@@ -10,8 +10,6 @@ services:
     restart: unless-stopped
     environment:
       - GF_INSTALL_PLUGINS=https://github.com/cloudspout/cloudspout-button-panel/releases/download/7.0.23/cloudspout-button-panel.zip;cloudspout-button-panel
-    depends_on:
-      - prometheus
     ports:
       - ${GRAFANA_PORT}:3000
     volumes:
