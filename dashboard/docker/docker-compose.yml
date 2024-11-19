@@ -1,7 +1,5 @@
 #  This file is part of the ETL Provenance Tracking Dashboard based on the Data Quality Monitor by TUM.
 
-version: '3.7'
-
 services:
 
   grafana:

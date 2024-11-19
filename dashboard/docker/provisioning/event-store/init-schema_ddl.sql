@@ -124,5 +124,4 @@ ALTER TABLE prov.schema_version OWNER TO postgres;
 GRANT ALL ON TABLE prov.schema_version TO postgres;
 
 -- Inserts
-INSERT INTO prov.schema_version (version, init_date) VALUES ('1.1.0-SNAPSHOT', NULL);
-
+INSERT INTO prov.schema_version (version, init_date) VALUES ('1.1.1-SNAPSHOT', NULL);
